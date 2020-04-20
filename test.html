@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Emscripten-Generated Code</title>
+</head>
+
+<body>
+    <div>
+        <label style="font-size:20px;" for="myString">String to Hash:</label>
+        <input style="font-size:20px;" type="text" id="myString" name="myString">
+        <button onclick="Module.callMain([document.getElementById('myString').value])" style="font-size:20px;">
+            Compute Hash</button>
+    </div>
+    <script async type="text/javascript" src="md5.js"></script>
+</body>
+
+</html>

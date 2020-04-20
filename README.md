@@ -28,6 +28,10 @@ When you’ve written a new code module in a language like C/C++, you can compil
 
 Get the Emscripten SDK, using these instructions: https://emscripten.org/docs/getting_started/downloads.html
 
+``` sh
+emcc -s "EXTRA_EXPORTED_RUNTIME_METHODS=['callMain']" -o md5.html md5.c
+```
+
 With the environment set up, let's look at how to use it to compile a C example to Emscripten. There are a number of options available when compiling with Emscripten, but the main two scenarios we'll cover are:
 
 Compiling to wasm and creating HTML to run our code in, plus all the JavaScript "glue" code needed to run the wasm in the web environment.
@@ -50,4 +54,46 @@ add to the end of JS file:
                         null	// arguments 
                         ); 
                         });
+```
+
+### Implementation of the MD5 algorithm written in C
+The Emscripten tool is able to take just about any C/C++ source code and compile it into a .wasm module, plus the necessary JavaScript "glue" code for loading and running the module, and an HTML document to display the results of the code.
+
+Simple way:
+``` html
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Emscripten-Generated Code</title>
+</head>
+
+<body>
+    <div>
+        <label style="font-size:20px;" for="myString">String to Hash:</label>
+        <input style="font-size:20px;" type="text" id="myString" name="myString">
+        <button onclick="Module.callMain([document.getElementById('myString').value])" style="font-size:20px;">
+            Compute Hash</button>
+    </div>
+    <script async type="text/javascript" src="md5.js"></script>
+</body>
+
+</html>
+```
+
+With Script:
+``` html
+  <div>
+    <label style="font-size:20px;" for="myString">String to Hash:</label>
+    <input style="font-size:20px;" type="text" id="myString" name="myString">
+    <button style="font-size:20px;" class="computeHash">Compute Hash</button>
+  </div>
+  <script>
+    document.querySelector('.computeHash')
+      .addEventListener('click', function () {
+        Module.callMain(["Mist"])
+    });
+  </script>
 ```
